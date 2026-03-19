@@ -1,5 +1,3 @@
-# outputs.tf
-
 output "vm_name" {
   value       = google_compute_instance.vm_lab3.name
   description = "The name of the VM instance"

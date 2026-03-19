@@ -1,6 +1,4 @@
 
-
-# Глобальні теги для всіх ресурсів
 locals {
   common_tags = {
     environment = "lab3"
@@ -8,14 +6,14 @@ locals {
   }
 }
 
-# Створення VPC
+
 resource "google_compute_network" "vpc_lab3" {
   name                    = "vpc-lab3-11"
   auto_create_subnetworks = false
   description             = "VPC for Lab 3"
 }
 
-# Підмережі
+
 resource "google_compute_subnetwork" "subnet_a" {
   name          = "subnet-a-lab3-11"
   ip_cidr_range = var.subnet_a_cidr
@@ -30,14 +28,14 @@ resource "google_compute_subnetwork" "subnet_b" {
   region        = var.region
 }
 
-# Інтернет-шлюз (default route через default-internet-gateway)
+# (default route через default-internet-gateway)
 resource "google_compute_router" "nat_router" {
   name    = "nat-router-lab3-11"
   network = google_compute_network.vpc_lab3.id
   region  = var.region
 }
 
-# Firewall rule для web порту
+
 resource "google_compute_firewall" "allow_web" {
   name    = "allow-web-lab3-11"
   network = google_compute_network.vpc_lab3.id
@@ -51,13 +49,13 @@ resource "google_compute_firewall" "allow_web" {
   target_tags   = ["web-server"]
 }
 
-# Динамічний пошук останнього Ubuntu 24.04 LTS образу
+
 data "google_compute_image" "ubuntu" {
   family  = var.vm_image_family
   project = var.vm_image_project
 }
 
-# Розгортання VM
+
 resource "google_compute_instance" "vm_lab3" {
   name         = var.vm_name
   machine_type = var.vm_machine_type
