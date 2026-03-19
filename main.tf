@@ -4,7 +4,7 @@
 locals {
   common_tags = {
     environment = "lab3"
-    owner       = "mariia.chaus"
+    owner       = "mariia_chaus"
   }
 }
 

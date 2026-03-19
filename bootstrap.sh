@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Змінні, що передаються через templatefile
-WEB_PORT=${web_port}
-DOCUMENT_ROOT=${document_root}
-SERVER_NAME=${server_name}
+web_port=${web_port}
+document_root=${document_root}
+server_name=${server_name}
 
 # Оновлення системи
 apt-get update -y
@@ -13,48 +13,48 @@ apt-get upgrade -y
 apt-get install -y apache2
 
 # Створення DocumentRoot
-mkdir -p ${DOCUMENT_ROOT}
-chown -R www-data:www-data ${DOCUMENT_ROOT}
-chmod -R 755 ${DOCUMENT_ROOT}
+mkdir -p ${document_root}
+chown -R www-data:www-data ${document_root}
+chmod -R 755 ${document_root}
 
 # Створення простої index.html
-cat <<EOF > ${DOCUMENT_ROOT}/index.html
+cat <<EOF > ${document_root}/index.html
 <html>
 <head>
     <title>Terraform Lab3</title>
 </head>
 <body>
-    <h1>Welcome to ${SERVER_NAME}</h1>
+    <h1>Welcome to ${server_name}</h1>
     <p>Server deployed with Terraform and bootstrap.sh</p>
 </body>
 </html>
 EOF
 
 # Налаштування VirtualHost
-cat <<EOF > /etc/apache2/sites-available/${SERVER_NAME}.conf
-<VirtualHost *:${WEB_PORT}>
+cat <<EOF > /etc/apache2/sites-available/${server_name}.conf
+<VirtualHost *:${web_port}>
     ServerAdmin webmaster@localhost
-    ServerName ${SERVER_NAME}
-    DocumentRoot ${DOCUMENT_ROOT}
-    ErrorLog \${APACHE_LOG_DIR}/error.log
-    CustomLog \${APACHE_LOG_DIR}/access.log combined
+    ServerName ${server_name}
+    DocumentRoot ${document_root}
+    ErrorLog /var/log/apache2/error.log
+    CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 EOF
 
 # Вимкнення дефолтного сайту та активація нового
 a2dissite 000-default.conf
-a2ensite ${SERVER_NAME}.conf
+a2ensite ${server_name}.conf
 
 # Зміна порту Apache
-sed -i "s/Listen 80/Listen ${WEB_PORT}/" /etc/apache2/ports.conf
+sed -i "s/Listen 80/Listen ${web_port}/" /etc/apache2/ports.conf
 
 # Додаткові налаштування для запобігання помилки 403 Forbidden
-echo "<Directory ${DOCUMENT_ROOT}>
+echo "<Directory ${document_root}>
     Options Indexes FollowSymLinks
     AllowOverride None
     Require all granted
-</Directory>" > /etc/apache2/conf-available/${SERVER_NAME}-dir.conf
-a2enconf ${SERVER_NAME}-dir.conf
+</Directory>" > /etc/apache2/conf-available/${server_name}-dir.conf
+a2enconf ${server_name}-dir.conf
 
 # Перезапуск Apache для застосування змін
 systemctl restart apache2

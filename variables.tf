@@ -44,7 +44,7 @@ variable "vm_machine_type" {
 variable "vm_image_family" {
   description = "Ubuntu image family"
   type        = string
-  default     = "ubuntu-2404-lts"
+  default     = "ubuntu-2204-lts"
 }
 
 variable "vm_image_project" {
