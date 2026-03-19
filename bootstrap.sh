@@ -25,6 +25,7 @@ cat <<EOF > ${document_root}/index.html
 </head>
 <body>
     <h1>Welcome to ${server_name}</h1>
+    <p>Chaus Mariia, OI-43</p>
     <p>Server deployed with Terraform and bootstrap.sh</p>
 </body>
 </html>

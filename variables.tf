@@ -38,7 +38,7 @@ variable "vm_name" {
 variable "vm_machine_type" {
   description = "Machine type for VM"
   type        = string
-  default     = "e2-medium"
+  default     = "e2-small"
 }
 
 variable "vm_image_family" {

@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "google" {
-  project = "eternal-sylph-487816-f1"  
-  region  = "europe-west3"
-  zone    = "europe-west3-a"
+  project = "eternal-sylph-487816-f1"
+  region  = "europe-west1"
+  zone    = "europe-west1-b"
 }
